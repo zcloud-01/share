@@ -15,7 +15,7 @@ When you will complete this Code Pattern, you will understand how to:
 
 This journey accesses a fictitious retail banking system called MPLbank. MPLbank integrates an Account Management System running on IBM Mainframe. On top of this component, an API layer based on z/OS Connect Enterprise Edition and IBM API Connect has been set up to deliver banking APIs. It makes banking services reachable through APIs from all kind of applications. IBM Cloud Private has been configured into the LinuxONE  Community Cloud.
 
-![alt text](images/arch-build-deploy-financial-microservice.png "Architecture")
+![alt text](images/arch-banking-app-lab.png "Architecture")
 
 1. The user deploys a Docker image (banking application based microservice) to the IBM Cloud Private Docker registry.
 2. The user configures and runs a container based on the previous Docker image from the IBM Cloud Private catalog. Once started, the application calls banking APIs published in API Connect.
