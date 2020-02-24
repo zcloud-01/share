@@ -163,11 +163,27 @@ This lab accesses a fictitious retail banking system called MPLbank. MPLbank int
 
 ---
 
-# Step 2 - Build and deploy a Docker image to IBM Cloud Private
+# Step 2 - Build and deploy a Docker image to OCP
 
-The objective is to build a Docker image from the banking application and then deploy it to the IBM Cloud Private.
+The objective is to build a Docker image for the banking application from your github repository and then deploy it to OCP. 
 
-## Part 1 - Build the Docker image from the LinuxONE Community Cloud
+1. Login to the OCP portal, https:console-openshift-console.apps.ocp.linuxone.io, with your assigned credentials. 
+
+2. At the login screen, select ldapidp, enter your assigned username and password.
+
+3. Create a project, name it project-xx, where xx is your assigned ID number.
+
+4. Click +Add to crate a workload.
+
+5. Selct From Dockerfile.
+
+6. Enter the URL for your github repo.
+
+7. Change the Container Port to 3000.
+
+8. Click Create.
+
+## Part 1 - Build the Docker image 
 
 Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using Docker build, users can create an automated build that executes several command-line instructions, step by step.
 
@@ -263,7 +279,7 @@ As a result, the banking application is now ready to be instantiated from the IC
 
 ---
 
-# Step 3 - Instantiate the banking microservice from the IBM Cloud Private catalog
+# Step 2 - Instantiate the banking microservice from the IBM Cloud Private catalog
 
 The objective is to discover the IBM Cloud Private catalog in order to instantiate a container from your Docker image containing your banking application. In this way, you will be able to test your banking application from ICp.
 
