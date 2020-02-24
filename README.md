@@ -1,35 +1,33 @@
-# Deploy a financial microservice on LinuxONE using IBM Cloud Private 
+# Deploy a financial microservice using Red Hat OpenShift Container Platform (OCP) on Linux on Z 
 
-In this Code Pattern, you will learn how to build and deploy a banking microservice with IBM Cloud Private running in the LinuxONE Community Cloud. 
+In this lab, you will experience how a traditional z/OS transaction can be modernized to create services (APIs) that can be assessed by a hybrid cloud application deployed in Red Hat OCP cluster residing on Linux on Z. 
 
-IBM Cloud Private is a private cloud platform for developing and running workloads locally. It is an integrated environment that enables you to design, develop, deploy and manage on-premises, containerized cloud applications behind a firewall. It includes the container orchestrator Kubernetes, a private image repository, a management console and monitoring frameworks.
+You will perform the following tasks:
 
-When you will complete this Code Pattern, you will understand how to:
-
-* Build a Docker image from an existing application.
-* Deploy a Docker image to IBM Cloud Private.
-* Run the existing application using the IBM Cloud Private catalog.
-
+* Using the IBM API Portal to connect to a set of z/OS banking APIs created for this lab. 
+* Modify an existing web application to acess the z/OS banking APIs. Using node.js to build and test the web application. 
+* Build, deploy, and test the web application on OCP.
+* Using OCP to modify the web application and redeploy the changes.
 
 # Architecture
 
-This journey accesses a fictitious retail banking system called MPLbank. MPLbank integrates an Account Management System running on IBM Mainframe. On top of this component, an API layer based on z/OS Connect Enterprise Edition and IBM API Connect has been set up to deliver banking APIs. It makes banking services reachable through APIs from all kind of applications. IBM Cloud Private has been configured into the LinuxONE  Community Cloud.
+This lab accesses a fictitious retail banking system called MPLbank. MPLbank integrates an Account Management System running on IBM Mainframe. On top of this component, an API layer based on z/OS Connect Enterprise Edition and IBM API Connect has been set up to deliver banking APIs. It makes banking services reachable through APIs from all kind of applications. 
 
 ![alt text](images/Arch-banking-app-lab.png "Architecture")
 
-1. The user deploys a Docker image (banking application based microservice) to the IBM Cloud Private Docker registry.
-2. The user configures and runs a container based on the previous Docker image from the IBM Cloud Private catalog. Once started, the application calls banking APIs published in API Connect.
+1. The user deploys a Docker image (banking application based microservice) to the OCP.  
+2. The user configures and runs a container based on this Docker image. Once started, the application calls banking APIs published in API Connect.
 3. API Connect calls the back-end Z Mainframe through a banking API published in z/OS Connect EE.
 4. z/OS Connect EE calls the Account Management System (AMS) running in CICS. A COBOL program processes the request and returns banking data. Finally, banking data are sent back to the microservice application.
 
 
 # Included components
 
-* [IBM Cloud Private](https://www.ibm.com/cloud/private)
+* [Red Hat OpenShift Container Platform](https://www.openshift.com)
 * [IBM API Connect](http://www-03.ibm.com/software/products/en/api-connect)
 * [IBM z/OS Connect Enterprise Edition](https://www.ibm.com/us-en/marketplace/connect-enterprise-edition)
 * [IBM CICS Tansaction Server](https://www.ibm.com/us-en/marketplace/cics-transaction-server#product-header-top)
-* [IBM Db2](https://www.ibm.com/analytics/db2/zos)
+* [IBM Db2](https://ed www.ibm.com/analytics/db2/zos)
 
 # Featured technologies
 
@@ -40,107 +38,65 @@ This journey accesses a fictitious retail banking system called MPLbank. MPLbank
 
 # Steps
 
-<!-- https://ecotrust-canada.github.io/markdown-toc/ -->
-
 ### Step 1 - Discover and locally run the banking application
 
-- [Part 1 - Discover the banking application](#part-1---discover-the-banking-application)
-- [Part 2 - Subscribe to the banking API through the API Developer Portal](#part-2---subscribe-to-the-banking-api-through-the-api-developer-portal)
-- [Part 3 - Run the banking application with Node.js](#part-3---run-the-banking-application-with-nodejs)
-- [Part 4 - Push the banking application to your GitHub repository](#part-4---push-the-banking-application-to-your-github-repository)
+- [Part 1 - Discover the banking application]
+- [Part 2 - Subscribe to the banking API through the API Developer Portal]
+- [Part 3 - Run the banking application with Node.js]
+- [Part 4 - Push the banking application to your GitHub repository]
 
-### Step 2 - Build and deploy a Docker image to IBM Cloud Private
+### Step 2 - Deploy the banking microservice from OCP
 
-- [Part 1 - Build the Docker image from the LinuxONE Community Cloud](#part-1---build-the-docker-image-from-the-LinuxONE-community-cloud)
-- [Part 2 - Deploy the Docker image to IBM Cloud Private](#part-2---deploy-the-docker-image-to-ibm-cloud-private)
-
-### Step 3 - Instantiate the banking microservice from the IBM Cloud Private catalog
-
-- [Part 1 - Discover the Helm chart from the calalog](#part-1---discover-the-helm-chart-from-the-calalog)
-- [Part 2 - Configure and install your banking microservice](#part-2---configure-and-install-your--microservice)
-- [Part 3 - Access your banking microservice](#part-3---access-your-banking-microservice)
-
+- [Part 1 - Using the OCP tool to deploy the banking application using a dockerfile].
+- [Part 2 - Access your banking microservice].
+- [Part 3 - Modify the your banking microservice and redeploy].
 ---
 
 # Step 1 - Discover and locally run the banking application
 
-The objective is to discover the banking application located in the *banking-application* folder. This application is a Node.js application. It will be locally tested before packaging it into a Docker image for IBM Cloud Private.
-
 ## Part 1 - Discover the banking application
 
-1. Create a [GitHub account](https://github.com/).
+1. Launch a terminal and clone your GitHub repository *banking-app-xx* to create a local copy of your banking application, where xx is your assigned ID number:
 
-	![alt text](images/github_signup.png "Sign up")
-	* Pick a username. This will be referenced later as "YOUR_USERNAME".
-	* Enter an email.
-	* Create a password.
-	* Click **Sign up for GitHub**.
-	* Select the plan *Unlimited public repositories for free*.
-	* A Confirmation email will be sent. Verify your email address to collaborate in Github.
-
-2. Fork the banking application from this GitHub repository to your own GitHub repository.
-
-	![alt text](images/fork.png "Fork the banking app")
-	* Click **Fork**.
-	* Github automatically forks this project from this repository *IBM/ICp-banking-microservices* to your repository *YOUR_USERNAME/ICp-banking-microservices*.
-	* Discover your forked project (your fresh banking application) in your Github repository *YOUR_USERNAME/ICp-banking-microservices*.
-
-3. Install the [Git command line interface](https://git-scm.com/book/en/v2/Getting-Started-The-Command-Line) to manage your GitHub repository. Git has three main commands:
-	* *git clone* is the command for creating a local copy of the source code from a GitHub repository.
-	* *git pull* is the command for pulling fresh code from a GitHub repository.
-	* *git push* is the command for pushing new code to a GitHub repository.
-
-4. Launch a terminal and clone your GitHub repository *ICp-banking-microservices* to create a local copy of your banking application:
-
-   `git clone https://github.com/YOUR_USERNAME/ICp-banking-microservices`
+   `git clone https://github.com/zcloud-01/banking-app-xx`
     
-	![alt text](images/clone.png "Clone the banking app")
-	
-5. Import the source code into your favorite IDE and take a look at the *banking-application* folder:
+2. Take a look at the imported *banking-app-xx* folder:
 
-	![alt text](images/banking_app_structure.png "Banking application")
+   `cd zcloud-01-banking-app-xx`
+   
+   `dir or ls`
+   
 	* *app.js*: the application server code.
 	* *public/index.html*: the application client code (banking dashboard).
 	* *public/css*: the application stylesheet.
-	* *public/js*: the JavaScript libraries. *bankingAPI.js* will be modified later to connect the banking application to a real corebanking system through API calls (part 2).
+	* *public/js*: the JavaScript libraries. 
+	* *public/js/bankingAPI.js* will be modified later to connect to a corebanking system through API calls.
 	* *package.json*: the package dependencies file.
-	* *Dockerfile*: file to build the Docker image. it will be used later (step 2).
+	* *Dockerfile*: file to build the Docker image. 
 
 ## Part 2 - Subscribe to the banking API through the API Developer Portal
 
-1. Sign up for an [IBM ID] if you don't have one already.
+1. Go to the [API Developer Portal].
 
-2. Go to the [API Developer Portal].
+2. Login to your account.
 
-3. Create an account if you have not done that already.
-
-	![alt text](images/createAccount.png "Create Account")
-   * Click **Create an Account**.
-   * Provide all required information. Be sure to use your IBM ID (email address) for this account.
-   * Click **Submit**.
-
-  
-   An account activation email will be sent to your registered IBM ID email. Click on the link in this email to activate your account.
-
-4. Login to your account.
-
-5. Create a new application.
-	![alt text](images/createApplication.png "Create Application")
+3. Create a new application.
 	* Click **Apps** from the menu.
 	* Click **Create new App**.
 	* Fill in all the required fields.
+	* For Title: use zcloudxx (e.g zcloud01). 
 	* Click **Submit**.
 	
 	Make a note of the *client ID* and *client Secret*. You will need them to access the API later.
 	![alt text](images/keyApplication.png "API Keys")
 
 
-6. Before working with the banking API, you need to subscribe to it first. Display the list of available API products.
+4. Before working with the banking API, you need to subscribe to it first. Display the list of available API products.
 	![alt text](images/bankingProduct.png "Choose the default plan")
 	* Click **API Products** from the top menu.
 	* Click **Banking Product** in the list.
 
-7. Subscribe to the Banking API.
+5. Subscribe to the Banking API.
 	![alt text](images/APISubscription.png "Subscribe")
 	* Click **Subscribe** to the Default Plan.
 	
@@ -148,37 +104,27 @@ The objective is to discover the banking application located in the *banking-app
 	* Select the App that you have just created before.
 	* Click **Subscribe**.
 	
-8. Modify the *banking-application/public/js/bankingAPI.js* in your banking application.
+6. Modify the *banking-application/public/js/bankingAPI.js* in your banking application.
 	![alt text](images/client_id_secret.png "javascript code")
 	* Replace *YOUR_CLIENT_ID_HERE* by your client ID value from the IBM API developer portal.
 	* Replace *YOUR_CLIENT_SECRET_HERE* by your client Secret value from the IBM API developer portal.
 
 ## Part 3 - Run the banking application with Node.js
 
-1. Install these required components for your environment (Windows, Mac OS, Linux):
-	*	[Node.js](https://nodejs.org/en/): Node.js is a javascript application server and will run the banking application.
-	* 	[npm](https://www.npmjs.com/get-npm): npm resolves Node.js package dependencies. According to your operating system, npm may be distributed with Node.js.
 
-3. Launch a terminal and test if Node.Js and npm are installed in your operating system and added to the system path:
-	
-	![alt text](images/node-npm-test1.png "npm node test command")
-	* Run the command *node -v*. The version is displayed.
-	* Run the command *npm -v*. The version is displayed.
+1. Go to your banking application folder:
 
+    `cd zcloud-01/banking-app-xx/banking-application`
 
-3. In the same terminal. Go to your banking application folder:
-
-    `cd ICp-banking-microservices/banking-application`
-
-4. Install Node.Js package dependencies of the banking application using : `npm install`
+2. Install Node.Js package dependencies of the banking application using : `npm install`
 	![alt text](images/npm-install.png "npm install")
 	* As a result, dependencies are installed in your project folder.
 
-5. Run the banking application using : `node app.js` :
+3. Run the banking application using : `node app.js` :
 	![alt text](images/node-app-js.png "node app.js")
 	* As a result, The banking application is started.
 	
-4. Launch a web browser and go to **localhost:3000**. The banking application appears.
+4. View your application, Launch a web browser and go to **localhost:3000**. The banking application appears.
     
 	![alt text](images/banking_app.png "Banking application")
 
@@ -196,7 +142,7 @@ The objective is to discover the banking application located in the *banking-app
 
 1. Add the *bankingAPI.js* file you just modified to the current content index:
 
-	`git add public/js/bankingAPI.js`
+   `git add public/js/bankingAPI.js`
 
 2. Commit the fresh code you modified to add changes to the local repository:
 
@@ -206,14 +152,14 @@ The objective is to discover the banking application located in the *banking-app
 
    `git push`
 
-4. Go back to your online Github repository *ICp-banking-microservices* using the web browser. 
+4. Go back to your online Github repository *banking-app-xx* using the web browser. 
 
 	![alt text](images/commit-push-repo.png "git push")
 	* Check that your code has been updated with commit label *Update of BankingAPI.js*
 
 ---
 
-:thumbsup: Congratulations! Your banking application locally works and modifications have been pushed to your GitHub repository! Ready for IBM Cloud Private?
+:thumbsup: Congratulations! Your banking application locally works and modifications have been pushed to your GitHub repository! Ready for Red Hat OpenShift Container Platform?
 
 ---
 
