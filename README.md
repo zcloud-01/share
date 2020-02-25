@@ -132,7 +132,7 @@ This lab accesses a fictitious retail banking system called MPLbank. MPLbank int
 	
 4. View your application, Launch a web browser and go to 
 
-    `localhost:3000` 
+    `http://localhost:3000` 
     
     The banking application appears.
     
