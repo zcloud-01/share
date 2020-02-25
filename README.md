@@ -116,15 +116,25 @@ This lab accesses a fictitious retail banking system called MPLbank. MPLbank int
 
     `cd zcloud-01/banking-app-xx/banking-application`
 
-2. Install Node.Js package dependencies of the banking application using : `npm install`
+2. Install Node.Js package dependencies of the banking application using : 
+
+    `npm install`
+
 	![alt text](images/npm-install.png "npm install")
 	* As a result, dependencies are installed in your project folder.
 
-3. Run the banking application using : `node app.js` :
+3. Run the banking application using : 
+
+    `node app.js` 
+    
 	![alt text](images/node-app-js.png "node app.js")
 	* As a result, The banking application is started.
 	
-4. View your application, Launch a web browser and go to **localhost:3000**. The banking application appears.
+4. View your application, Launch a web browser and go to 
+
+    `localhost:3000` 
+    
+    The banking application appears.
     
 	![alt text](images/banking_app.png "Banking application")
 
