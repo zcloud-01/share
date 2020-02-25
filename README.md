@@ -47,9 +47,9 @@ This lab accesses a fictitious retail banking system called MPLbank. MPLbank int
 
 ### Step 2 - Deploy the banking microservice from OCP
 
-* [Part 1 - Using the OCP tool to deploy the banking application using a dockerfile].
-* [Part 2 - Access your banking microservice].
-* [Part 3 - Modify the your banking microservice and redeploy].
+* [Part 1 - Using the OCP tool to deploy the banking application using a dockerfile]
+* [Part 2 - Access your banking microservice]
+* [Part 3 - Modify the your banking microservice and redeploy]
 ---
 
 # Step 1 - Discover and locally run the banking application
