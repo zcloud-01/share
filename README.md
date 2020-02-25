@@ -27,7 +27,7 @@ This lab accesses a fictitious retail banking system called MPLbank. MPLbank int
 * [IBM API Connect](http://www-03.ibm.com/software/products/en/api-connect)
 * [IBM z/OS Connect Enterprise Edition](https://www.ibm.com/us-en/marketplace/connect-enterprise-edition)
 * [IBM CICS Tansaction Server](https://www.ibm.com/us-en/marketplace/cics-transaction-server#product-header-top)
-* [IBM Db2](https://ed www.ibm.com/analytics/db2/zos)
+* [IBM Db2](https://www.ibm.com/analytics/db2/zos)
 
 # Featured technologies
 
