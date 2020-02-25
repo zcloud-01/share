@@ -40,16 +40,16 @@ This lab accesses a fictitious retail banking system called MPLbank. MPLbank int
 
 ### Step 1 - Discover and locally run the banking application
 
-- [Part 1 - Discover the banking application]
-- [Part 2 - Subscribe to the banking API through the API Developer Portal]
-- [Part 3 - Run the banking application with Node.js]
-- [Part 4 - Push the banking application to your GitHub repository]
+* [Part 1 - Discover the banking application]
+* [Part 2 - Subscribe to the banking API through the API Developer Portal]
+* [Part 3 - Run the banking application with Node.js]
+* [Part 4 - Push the banking application to your GitHub repository]
 
 ### Step 2 - Deploy the banking microservice from OCP
 
-- [Part 1 - Using the OCP tool to deploy the banking application using a dockerfile].
-- [Part 2 - Access your banking microservice].
-- [Part 3 - Modify the your banking microservice and redeploy].
+* [Part 1 - Using the OCP tool to deploy the banking application using a dockerfile].
+* [Part 2 - Access your banking microservice].
+* [Part 3 - Modify the your banking microservice and redeploy].
 ---
 
 # Step 1 - Discover and locally run the banking application
